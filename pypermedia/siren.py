@@ -32,6 +32,9 @@ def _check_and_decode_response(response):
     if response.status_code > 299 or response.status_code < 200:
         raise UnexpectedStatusError(message='Received an unexpected status code of "{0}"! Unable to construct siren objects.'.format(response.status_code))
 
+    if response.status_code == 204:
+        return None
+
     response = response.text
     if not response:
         raise MalformedSirenError(message='Parameter "response" object had empty response content. Unable to construct siren objects.')
