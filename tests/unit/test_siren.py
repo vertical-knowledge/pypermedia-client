@@ -40,6 +40,17 @@ class TestSirenBuilder(unittest2.TestCase):
         resp = mock.Mock(status_code=200, text='')
         self.assertRaises(MalformedSirenError, _check_and_decode_response, resp)
 
+    def test_check_and_decode_no_content(self):
+        """
+        Tests that no entity is created when
+        status code is 204.
+        """
+        resp = mock.Mock(status_code=204, text=None)
+        assert _check_and_decode_response(resp) is None
+
+        resp = mock.Mock(status_code=204, text='')
+        assert _check_and_decode_response(resp) is None
+
     def test_construct_link(self):
         builder = SirenBuilder()
         link = builder._construct_link(dict(rel=['rel'], href='whocares'))
